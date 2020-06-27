@@ -1,6 +1,8 @@
 import pygame
 from scripts.player import Player
 
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600 
 
 _is_running = True
 
@@ -35,8 +37,8 @@ if __name__ == '__main__':
     global _player
 
     pygame.init()
-    _screen = pygame.display.set_mode([800,600])
-    _player = Player()
+    _screen = pygame.display.set_mode([SCREEN_WIDTH,SCREEN_HEIGHT])
+    _player = Player(SCREEN_WIDTH,SCREEN_HEIGHT)
 
     _game_loop()
     
