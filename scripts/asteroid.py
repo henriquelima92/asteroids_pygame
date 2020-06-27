@@ -3,14 +3,16 @@ import random
 from scripts import constant
 from scripts.utilities import Vector2, Collider
 
-class Asteroid(object):
+WIDTH = 30
+HEIGHT = 30
+
+class Asteroid(pygame.sprite.Sprite):
     def __init__(self):
+        super(Asteroid, self).__init__()
+        self.surf = pygame.Surface((WIDTH,HEIGHT))
+        self.surf.fill((255,0,0))
+        self.rect = self.surf.get_rect()
         self.position = Vector2(random.randint(0, 560), 0)
-        self.sprite = pygame.sprite.Sprite()
-        self.sprite.image = pygame.image.load(constant.SPRITES_FOLDER + "asteroid_0.png")
-        self.sprite.image = pygame.transform.scale(self.sprite.image, (30, 30))
-        self.rect = self.sprite.image.get_rect() 
-        self.rect.center = (30 / 2, 30 / 2 )
         
         self.collider = Collider(self.position.x, self.position.y)
 
@@ -20,7 +22,7 @@ class Asteroid(object):
             self._reset()
 
     def draw(self, screen):
-        screen.blit(self.sprite.image, self.position.get_vector2())
+        screen.blit(self.surf, self.position.get_vector2())
 
     def _reset(self):
         self.position.y = 0

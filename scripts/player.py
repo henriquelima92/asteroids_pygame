@@ -3,16 +3,16 @@ from scripts import constant
 from scripts.utilities import Vector2, Collider
 from scripts.shot import Shot
 
-class Player(object):
-    
+WIDTH = 40
+HEIGHT = 40
 
+class Player(pygame.sprite.Sprite):
     def __init__(self):
+        super(Player, self).__init__()
+        self.surf = pygame.Surface((WIDTH,HEIGHT))
+        self.surf.fill((255,255,255))
+        self.rect = self.surf.get_rect()
         self.position = Vector2(50, 440)
-        self.sprite = pygame.sprite.Sprite()
-        self.sprite.image = pygame.image.load(constant.SPRITES_FOLDER + "player.png")
-        self.sprite.image = pygame.transform.scale(self.sprite.image, (40, 40))
-        self.rect = self.sprite.image.get_rect() 
-        self.rect.center = (40 / 2, 40 / 2 )
         
         self.collider = Collider(self.position.x, self.position.y)
         self.shots = []
@@ -41,8 +41,11 @@ class Player(object):
         self._check_borders()
 
     def shot(self):
-        new_shot = Shot(self.position, Vector2(0,-1))
+        new_shot = Shot(self._get_shot_position(), Vector2(0,-1))
         self.shots.append(new_shot)
+
+    def _get_shot_position(self):
+        return Vector2(self.position.x + WIDTH/2, self.position.y - HEIGHT/2)
 
     def _check_borders(self):
         if self.position.x > constant.SCREEN_WIDTH:
@@ -56,7 +59,8 @@ class Player(object):
             self.position.y = constant.SCREEN_HEIGHT
 
     def draw(self, screen):
-        screen.blit(self.sprite.image, self.position.get_vector2())
+        screen.blit(self.surf, self.position.get_vector2())
+
         if len(self.shots) > 0:
             for shot in self.shots:
                 shot.draw(screen)

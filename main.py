@@ -5,6 +5,9 @@ from scripts import constant
 
 _is_running = True
 
+enemies_group = pygame.sprite.Group()
+character_group = pygame.sprite.Group()
+
 def _update():
     _player.update()
     _asteroid.update()
@@ -44,6 +47,9 @@ if __name__ == '__main__':
     _screen = pygame.display.set_mode([constant.SCREEN_WIDTH,constant.SCREEN_HEIGHT])
     _player = Player()
     _asteroid = Asteroid()
+    
+    character_group.add(_player)
+    enemies_group.add(_asteroid)
 
     _game_loop()
     
