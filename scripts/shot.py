@@ -11,10 +11,11 @@ class Shot(pygame.sprite.Sprite):
         self.rect = self.surf.get_rect()
         self.position = Vector2(position.x, position.y)
         self.direction = direction
+        self.speed = 1
 
     def update(self):
-        self.position.x += self.direction.x
-        self.position.y += self.direction.y
+        self.position.x += (self.direction.x * self.speed)
+        self.position.y += (self.direction.y * self.speed)
 
     def draw(self, screen):
         screen.blit(self.surf, self.position.get_vector2())

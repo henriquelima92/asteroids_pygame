@@ -13,11 +13,12 @@ class Asteroid(pygame.sprite.Sprite):
         self.surf.fill((255,0,0))
         self.rect = self.surf.get_rect()
         self.position = Vector2(random.randint(0, 560), 0)
+        self.speed = 0.5
         
         self.collider = Collider(self.position.x, self.position.y)
 
     def update(self):
-        self.position.y += 0.4
+        self.position.y += self.speed
         if self.position.y > constant.SCREEN_HEIGHT:
             self._reset()
 

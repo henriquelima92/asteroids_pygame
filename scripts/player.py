@@ -13,6 +13,7 @@ class Player(pygame.sprite.Sprite):
         self.surf.fill((255,255,255))
         self.rect = self.surf.get_rect()
         self.position = Vector2(50, 440)
+        self.speed = 0.7
         
         self.collider = Collider(self.position.x, self.position.y)
         self.shots = []
@@ -25,14 +26,14 @@ class Player(pygame.sprite.Sprite):
 
     def update(self):
         if pygame.key.get_pressed()[pygame.K_LEFT] != 0:
-            self.position.x -= 1
+            self.position.x -= self.speed
         elif pygame.key.get_pressed()[pygame.K_RIGHT] != 0:
-            self.position.x += 1
+            self.position.x += self.speed
 
         if pygame.key.get_pressed()[pygame.K_UP] != 0:
-            self.position.y -= 1
+            self.position.y -= self.speed
         elif pygame.key.get_pressed()[pygame.K_DOWN] != 0:
-            self.position.y += 1
+            self.position.y += self.speed
 
         if len(self.shots) > 0:
             for shot in self.shots:
