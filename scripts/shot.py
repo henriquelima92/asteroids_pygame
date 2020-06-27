@@ -1,18 +1,16 @@
 import pygame
 from scripts import constant
-from scripts.utilities import Vector2
-
-WIDTH = 3
-HEIGHT = 10
+from pygame.math import Vector2
 
 class Shot(pygame.sprite.Sprite):
 
     def __init__(self, position, direction):
         super(Shot, self).__init__()
-        self.surf = pygame.Surface((WIDTH,HEIGHT))
+        self.scale = Vector2(3,10)
+        self.surf = pygame.Surface(self.scale)
         self.surf.fill((0,255,0))
         self.rect = self.surf.get_rect()
-        self.position = Vector2(position.x, position.y)
+        self.position = position
         self.direction = direction
         self.speed = 1
 
@@ -21,4 +19,4 @@ class Shot(pygame.sprite.Sprite):
         self.position.y += (self.direction.y * self.speed)
 
     def draw(self, screen):
-        screen.blit(self.surf, self.position.get_vector2())
+        screen.blit(self.surf, self.position)
