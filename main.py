@@ -20,10 +20,11 @@ def _draw(screen):
 
 def _inputs():
     global _is_running
-
+    
     for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 _is_running = False
+            _player.inputs(event)
 
 def _game_loop():
 
