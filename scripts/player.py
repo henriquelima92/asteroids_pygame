@@ -1,16 +1,17 @@
 import pygame
-from scripts.utilities import Vector2
+from scripts import constant
+from scripts.utilities import Vector2, Collider
 
 class Player(object):
-    def __init__(self, screen_w, screen_h):
-        global _screen
-
+    def __init__(self):
         self.position = Vector2(50, 440)
-        self.size = Vector2(1,1)
         self.sprite = pygame.sprite.Sprite()
-        self.sprite.image = pygame.image.load("sprites/player.png")
-        self.sprite.rect = self.sprite.image.get_rect()
-        _screen = [screen_w, screen_h]
+        self.sprite.image = pygame.image.load(constant.SPRITES_FOLDER + "player.png")
+        self.sprite.image = pygame.transform.scale(self.sprite.image, (40, 40))
+        self.rect = self.sprite.image.get_rect() 
+        self.rect.center = (40 / 2, 40 / 2 )
+        
+        self.collider = Collider(self.position.x, self.position.y)
         
 
     def update(self):
@@ -27,15 +28,15 @@ class Player(object):
         self._check_borders()
 
     def _check_borders(self):
-        if self.position.x > _screen[0]:
+        if self.position.x > constant.SCREEN_WIDTH:
             self.position.x = 0
         elif self.position.x < 0:
-            self.position.x = _screen[0]
+            self.position.x = constant.SCREEN_WIDTH
 
-        if self.position.y > _screen[1]:
+        if self.position.y > constant.SCREEN_HEIGHT:
             self.position.y = 0
         elif self.position.y < 0:
-            self.position.y = _screen[1]
+            self.position.y = constant.SCREEN_HEIGHT
 
     def draw(self, screen):
         screen.blit(self.sprite.image, self.position.get_vector2())

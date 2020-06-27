@@ -1,18 +1,21 @@
 import pygame
 from scripts.player import Player
-
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600 
+from scripts.asteroid import Asteroid
+from scripts import constant
 
 _is_running = True
 
 def _update():
     _player.update()
+    _asteroid.update()
     pass
 
 def _draw(screen):
     screen.fill([0, 0, 0])
+    
     _player.draw(screen)
+    _asteroid.draw(screen)
+
     pygame.display.update()
 
 def _inputs():
@@ -37,8 +40,9 @@ if __name__ == '__main__':
     global _player
 
     pygame.init()
-    _screen = pygame.display.set_mode([SCREEN_WIDTH,SCREEN_HEIGHT])
-    _player = Player(SCREEN_WIDTH,SCREEN_HEIGHT)
+    _screen = pygame.display.set_mode([constant.SCREEN_WIDTH,constant.SCREEN_HEIGHT])
+    _player = Player()
+    _asteroid = Asteroid()
 
     _game_loop()
     

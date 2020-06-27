@@ -1,0 +1,5 @@
+SPRITES_FOLDER = "sprites/"
+SCRIPTS_FOLDER = "scripts/"
+
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600 
