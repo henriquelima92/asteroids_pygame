@@ -1,32 +1,36 @@
 import pygame
 from scripts import constant
-from scripts.utilities import Collider
 from scripts.shot import Shot
 from pygame.math import Vector2
 import math
 
+from scripts.collider import Collider
+
 class Player(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, enemy):
         super(Player, self).__init__()
+        self.enemy = enemy
         self.scale = Vector2(40, 40)
         self.surf = pygame.Surface(self.scale, pygame.SRCALPHA)
         self.surf.fill((255,255,255))
         self.rect = self.surf.get_rect()
         self.position = Vector2(50, 440)
+
+        self.collider = Collider(self.position, self.scale)
         
         self.acceleration = 0.015
         self.rotation_speed = 0.7
         self.angle = 0
         self.current_speed = Vector2(0,0)
 
-        
-        self.collider = Collider(self.position.x, self.position.y)
+        self.is_alive = True
         self.shots = []
         
     def inputs(self, event):
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                self.shot()
+        if self.is_alive == True:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    self.shot()
 
     def _left(self):
         self.angle += self.rotation_speed
@@ -63,22 +67,34 @@ class Player(pygame.sprite.Sprite):
 
 
     def update(self):
-        if pygame.key.get_pressed()[pygame.K_LEFT] != 0:
-            self._left()
-        elif pygame.key.get_pressed()[pygame.K_RIGHT] != 0:
-            self._right()
-        
-        if pygame.key.get_pressed()[pygame.K_UP] != 0:
-            self._up()
+        if self.is_alive == True:
+            if pygame.key.get_pressed()[pygame.K_LEFT] != 0:
+                self._left()
+            elif pygame.key.get_pressed()[pygame.K_RIGHT] != 0:
+                self._right()
+            
+            if pygame.key.get_pressed()[pygame.K_UP] != 0:
+                self._up()
 
-        self.position += self.current_speed
+            self.position += self.current_speed
 
+            if self.collider.check_collision(self.position, self.enemy):
+                if self.is_alive == True:
+                    self.is_alive = False
+                    self.kill()
+                    print("entrou")
 
-        if len(self.shots) > 0:
-            for shot in self.shots:
-                shot.update()
+            if len(self.shots) > 0:
+                for shot in self.shots:
+                    shot.update()
 
-        self._check_borders()
+            self._check_borders()
+
+    def check_collision(self):
+        if self.position.x < self.enemy.position.x + self.enemy.scale.x and self.position.x + self.scale.x > self.enemy.position.x and self.position.y < self.enemy.position.y + self.enemy.scale.y and self.position.y + self.scale.y > self.enemy.position.y:
+            if self.isAlive == True:
+                self.isAlive = False
+                print("entrou")
 
     def shot(self):
         new_shot = Shot(self._get_shot_position(), self.angle)
@@ -99,11 +115,12 @@ class Player(pygame.sprite.Sprite):
             self.position.y = constant.SCREEN_HEIGHT
 
     def draw(self, screen):
-        img_copy = pygame.transform.rotate(self.surf, self.angle)
-        screen.blit(img_copy, (self.position.x - int(img_copy.get_width() / 2), self.position.y - int(img_copy.get_height() / 2)))
-        if len(self.shots) > 0:
-            for shot in self.shots:
-                shot.draw(screen)
+        if self.is_alive == True:
+            img_copy = pygame.transform.rotate(self.surf, self.angle)
+            screen.blit(img_copy, (self.position.x - int(img_copy.get_width() / 2), self.position.y - int(img_copy.get_height() / 2)))
+            if len(self.shots) > 0:
+                for shot in self.shots:
+                    shot.draw(screen)
 
     def destroy(self):
         pass

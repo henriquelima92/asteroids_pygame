@@ -2,15 +2,21 @@ import pygame
 from scripts.player import Player
 from scripts.asteroid import Asteroid
 from scripts import constant
+from pygame.math import Vector2
 
 _is_running = True
 
 enemies_group = pygame.sprite.Group()
 character_group = pygame.sprite.Group()
 
+enemies_list = []
+shots_list = []
+
+
 def _update():
     _player.update()
     _asteroid.update()
+    _asteroid2.update()
     pass
 
 def _draw(screen):
@@ -18,6 +24,7 @@ def _draw(screen):
     
     _player.draw(screen)
     _asteroid.draw(screen)
+    _asteroid2.draw(screen)
 
     pygame.display.update()
 
@@ -45,8 +52,9 @@ if __name__ == '__main__':
 
     pygame.init()
     _screen = pygame.display.set_mode([constant.SCREEN_WIDTH,constant.SCREEN_HEIGHT])
-    _player = Player()
-    _asteroid = Asteroid()
+    _asteroid = Asteroid(Vector2(400, 300))
+    _asteroid2 = Asteroid(Vector2(45,15))
+    _player = Player(_asteroid)
     
     character_group.add(_player)
     enemies_group.add(_asteroid)
