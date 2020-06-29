@@ -100,7 +100,7 @@ class Player(pygame.sprite.Sprite):
                 print("entrou")
 
     def shot(self):
-        new_shot = Shot(self._get_shot_position(), self.angle)
+        new_shot = Shot(self._get_shot_position(), self.angle, self.shots)
         self.shots.append(new_shot)
 
     def _get_shot_position(self):
