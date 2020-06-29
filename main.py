@@ -3,28 +3,20 @@ from scripts.player import Player
 from scripts.asteroid import Asteroid
 from scripts import constant
 from pygame.math import Vector2
+from scripts.asteroid_controller import Asteroid_Controller
 
 _is_running = True
 
-enemies_group = pygame.sprite.Group()
-character_group = pygame.sprite.Group()
-
-enemies_list = []
-shots_list = []
-
 
 def _update():
+    _asteroid_controller.update()
     _player.update()
-    _asteroid.update()
-    _asteroid2.update()
-    pass
 
 def _draw(screen):
     screen.fill([0, 0, 0])
     
+    _asteroid_controller.draw(screen)
     _player.draw(screen)
-    _asteroid.draw(screen)
-    _asteroid2.draw(screen)
 
     pygame.display.update()
 
@@ -48,16 +40,12 @@ def _game_loop():
 
 if __name__ == '__main__':
     global _screen
-    global _player
 
     pygame.init()
     _screen = pygame.display.set_mode([constant.SCREEN_WIDTH,constant.SCREEN_HEIGHT])
-    _asteroid = Asteroid(Vector2(400, 300))
-    _asteroid2 = Asteroid(Vector2(45,15))
-    _player = Player(_asteroid)
-    
-    character_group.add(_player)
-    enemies_group.add(_asteroid)
+    _asteroid_controller = Asteroid_Controller()
+
+    _player = Player()
 
     _game_loop()
     

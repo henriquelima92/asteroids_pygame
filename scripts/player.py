@@ -7,9 +7,9 @@ import math
 from scripts.collider import Collider
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, enemy):
+    def __init__(self):
         super(Player, self).__init__()
-        self.enemy = enemy
+        # self.enemy = enemy
         self.scale = Vector2(40, 40)
         self.surf = pygame.Surface(self.scale, pygame.SRCALPHA)
         self.surf.fill((255,255,255))
@@ -78,11 +78,11 @@ class Player(pygame.sprite.Sprite):
 
             self.position += self.current_speed
 
-            if self.collider.check_collision(self.position, self.enemy):
-                if self.is_alive == True:
-                    self.is_alive = False
-                    self.kill()
-                    print("entrou")
+            # if self.collider.check_collision(self.position, self.enemy):
+            #     if self.is_alive == True:
+            #         self.is_alive = False
+            #         self.kill()
+            #         print("entrou")
 
             if len(self.shots) > 0:
                 for shot in self.shots:
