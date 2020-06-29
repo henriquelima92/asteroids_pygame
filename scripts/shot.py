@@ -1,6 +1,7 @@
 import pygame
 from scripts import constant
 from pygame.math import Vector2
+from scripts.collider import Collider
 import math
 
 class Shot(pygame.sprite.Sprite):
@@ -12,6 +13,7 @@ class Shot(pygame.sprite.Sprite):
         self.surf.fill((0,255,0))
         self.rect = self.surf.get_rect()
         self.position = position
+        self.collider = Collider(self.position, self.scale)
 
         if angle + 90 > 360:
             angle -= 360.0
@@ -22,9 +24,13 @@ class Shot(pygame.sprite.Sprite):
 
         self.speed = 1
 
-    def update(self):
+    def update(self, asteroid_controller):
         self.position.x += self.speedx
         self.position.y += self.speedy
+
+        for asteroid in asteroid_controller.asteroid_list:
+            if self.collider.check_collision(self.position, asteroid) == True:
+                asteroid_controller.asteroid_list.remove(asteroid)
 
     def draw(self, screen):
         screen.blit(self.surf, self.position)

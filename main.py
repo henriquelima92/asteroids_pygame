@@ -10,7 +10,7 @@ _is_running = True
 
 def _update():
     _asteroid_controller.update()
-    _player.update()
+    _player.update(_asteroid_controller)
 
 def _draw(screen):
     screen.fill([0, 0, 0])
