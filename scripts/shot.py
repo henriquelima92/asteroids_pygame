@@ -33,7 +33,7 @@ class Shot(pygame.sprite.Sprite):
 
         for asteroid in asteroid_controller.asteroid_list:
             if self.collider.check_collision(self.position, asteroid) == True:
-                asteroid_controller.asteroid_remover(asteroid)
+                asteroid_controller.remove_asteroid(asteroid)
                 self._kill_shot()
 
 
@@ -44,7 +44,7 @@ class Shot(pygame.sprite.Sprite):
     def _kill_shot(self):
         if self in self.shots_list:
             self.shots_list.remove(self)
-            self.kill
+            del self
 
     def draw(self, screen):
         screen.blit(self.surf, self.position)

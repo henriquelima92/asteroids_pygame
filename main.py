@@ -9,13 +9,13 @@ _is_running = True
 
 
 def _update():
-    _asteroid_controller.update()
+    _asteroid_controller.update_asteroids()
     _player.update(_asteroid_controller)
 
 def _draw(screen):
     screen.fill([0, 0, 0])
     
-    _asteroid_controller.draw(screen)
+    _asteroid_controller.draw_asteroids(screen)
     _player.draw(screen)
 
     font = pygame.font.Font(constant.FONTS_FOLDER + 'Atari.ttf', 25) 

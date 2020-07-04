@@ -14,7 +14,7 @@ class Player(pygame.sprite.Sprite):
         self.surf = pygame.Surface(self.scale, pygame.SRCALPHA)
         self.surf.fill((255,255,255))
         self.rect = self.surf.get_rect()
-        self.position = Vector2(50, 440)
+        self.position = Vector2(constant.SCREEN_WIDTH/2, constant.SCREEN_HEIGHT/2)
 
         self.collider = Collider(self.position, self.scale)
         
@@ -72,7 +72,7 @@ class Player(pygame.sprite.Sprite):
                 if self.is_alive == True:
                     self.is_alive = False
                     self.kill()
-                    asteroid_controller.asteroid_remover(asteroid)
+                    asteroid_controller.remove_asteroid(asteroid)
 
         if self.is_alive == True:
             if pygame.key.get_pressed()[pygame.K_LEFT] != 0:

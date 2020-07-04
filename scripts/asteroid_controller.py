@@ -1,4 +1,5 @@
 import random
+from scripts import constant
 from pygame.math import Vector2
 from scripts.asteroid import Asteroid
 
@@ -7,59 +8,64 @@ class Asteroid_Controller(object):
     def __init__(self):
         self.asteroid_list = []
 
-    def update(self):
-        self.check_asteroid_list()
+    def update_asteroids(self):
+        print(len(self.asteroid_list))
+        self._check_asteroid_list()
         for asteroid in self.asteroid_list:
             asteroid.update()
 
-    def draw(self, screen):
+    def draw_asteroids(self, screen):
         for asteroid in self.asteroid_list:
             asteroid.draw(screen)
 
-    def asteroid_creator(self, respaw):
-        # random.seed(random.randint(0,100))
-        random_value = random.randint(0,100) if respaw == False else random.randint(0,50)
 
-        if random_value > 0 and random_value < 25: #type 1
-            return Vector2(10,10), 1
-        elif random_value >= 25 and random_value < 50: #type 2
-            return Vector2(20,20), 2
-        elif random_value >= 50 and random_value < 75: #type 3
-            return Vector2(30,30), 3
-        else: #type 4
-            return Vector2(40,40), 4
+    def _get_asteroid_type(self):
+        random.seed(random.randint(0,1000))
+        value = random.randint(0, 1000)
+        if value > 0 and value < 250:
+            return 1
+        elif value > 250 and value < 500:
+            return 2
+        elif value > 500 and value < 750:
+            return 3
+        elif value > 750 and value < 1000:
+            return 4
 
-    def asteroid_remover(self, asteroid):
-        self.asteroid_list.remove(asteroid)
-        asteroid.kill()
+    def _get_asteroid_spawn_position(self):
+        random.seed(random.randint(0,1000))
+        return Vector2(random.randint(0, constant.SCREEN_WIDTH), 0)
 
-        self.spawn_when_kill(random.randint(1, 4), asteroid)  
+    def _spawn_asteroid(self, amount):
+        for x in range(amount):
+            _position = self._get_asteroid_spawn_position()
+            _type = self._get_asteroid_type()
 
-    def spawn_when_kill(self, asteroids_length, asteroid):
-        if asteroid.asteroid_type == 3 or asteroid.asteroid_type == 4:
-            for ast in range(0, asteroids_length):
-                position = asteroid.position
-                scale, asteroid_type = self.asteroid_creator(True)
-                print(scale)
-                print(asteroid_type)
-                new_asteroid = Asteroid(position, scale, asteroid_type)
-                self.asteroid_list.append(new_asteroid)
+            new_asteroid = Asteroid(_position, _type)
+            self.asteroid_list.append(new_asteroid)
 
+    def _respawn_asteroid(self, asteroid):
+        for x in range(asteroid.type):
+            random.seed(random.randint(0,1000))
+            
+            _position = asteroid.position
+            _type = random.randint(1, asteroid.type-1)
 
-    def spawn(self, asteroids_length, asteroids_position):
-        for index in range(0, asteroids_length):
-            random.seed(random.randint(0,100))
-            position = None
+            new_asteroid = Asteroid(_position, _type)
+            self.asteroid_list.append(new_asteroid)
 
-            if asteroids_position == None:
-                position = Vector2(random.randint(10, 590), 10)
-            else:
-                position = asteroids_position
+    def _check_respawn(self, asteroid):
+        print(asteroid.type)
+        if asteroid.type == 3 or asteroid == 4:
+            self._respawn_asteroid(asteroid)
 
-            scale, asteroid_type = self.asteroid_creator(False)
-            asteroid = Asteroid(position, scale, asteroid_type)
-            self.asteroid_list.append(asteroid)
-    
-    def check_asteroid_list(self):
+    def _check_asteroid_list(self):
         if len(self.asteroid_list) == 0:
-            self.spawn(random.randint(5, 10), None)
+            random.seed(random.randint(0,1000))
+            amount = random.randint(5, 15)
+            self._spawn_asteroid(amount)
+
+    def remove_asteroid(self, asteroid):
+        if asteroid in self.asteroid_list:
+            self.asteroid_list.remove(asteroid)
+            self._check_respawn(asteroid)
+            del asteroid
