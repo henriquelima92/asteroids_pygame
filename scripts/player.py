@@ -67,6 +67,13 @@ class Player(pygame.sprite.Sprite):
 
 
     def update(self, asteroid_controller):
+        for asteroid in asteroid_controller.asteroid_list:
+            if self.collider.check_collision(self.position, asteroid):
+                if self.is_alive == True:
+                    self.is_alive = False
+                    self.kill()
+                    asteroid_controller.asteroid_list.remove(asteroid)
+
         if self.is_alive == True:
             if pygame.key.get_pressed()[pygame.K_LEFT] != 0:
                 self._left()
@@ -78,15 +85,6 @@ class Player(pygame.sprite.Sprite):
 
             self.position += self.current_speed
 
-            for asteroid in asteroid_controller.asteroid_list:
-                if self.collider.check_collision(self.position, asteroid):
-                    if self.is_alive == True:
-                        self.is_alive = False
-                        self.kill()
-                        asteroid_controller.asteroid_list.remove(asteroid)
-                    
-      
-            
             if len(self.shots) > 0:
                 for shot in self.shots:
                     shot.update(asteroid_controller)

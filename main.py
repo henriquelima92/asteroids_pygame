@@ -18,7 +18,7 @@ def _draw(screen):
     _asteroid_controller.draw(screen)
     _player.draw(screen)
 
-    font = pygame.font.Font('Atari.ttf', 25) 
+    font = pygame.font.Font(constant.FONTS_FOLDER + 'Atari.ttf', 25) 
     text = font.render('Points: ', True, white) 
 
     textRect = text.get_rect()  

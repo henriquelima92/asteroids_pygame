@@ -5,9 +5,9 @@ from pygame.math import Vector2
 import math
 
 class Asteroid(pygame.sprite.Sprite):
-    def __init__(self, position):
+    def __init__(self, position, scale):
         super(Asteroid, self).__init__()
-        self.scale = Vector2(30,30)
+        self.scale = scale
         self.surf = pygame.Surface(self.scale)
         self.surf.fill((255,0,0))
         self.rect = self.surf.get_rect()
@@ -23,10 +23,6 @@ class Asteroid(pygame.sprite.Sprite):
         self.position.y += 50 * self.speedy / (self.scale.y + 1)
 
         self._check_borders()
-        # self.position.y += self.speed
-
-        # if self.position.y > constant.SCREEN_HEIGHT:
-        #     self._reset()
 
     def draw(self, screen):
         screen.blit(self.surf, self.position)
