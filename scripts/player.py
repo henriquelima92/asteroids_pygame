@@ -72,7 +72,7 @@ class Player(pygame.sprite.Sprite):
                 if self.is_alive == True:
                     self.is_alive = False
                     self.kill()
-                    asteroid_controller.asteroid_list.remove(asteroid)
+                    asteroid_controller.asteroid_remover(asteroid)
 
         if self.is_alive == True:
             if pygame.key.get_pressed()[pygame.K_LEFT] != 0:
@@ -93,8 +93,8 @@ class Player(pygame.sprite.Sprite):
 
     def check_collision(self):
         if self.position.x < self.enemy.position.x + self.enemy.scale.x and self.position.x + self.scale.x > self.enemy.position.x and self.position.y < self.enemy.position.y + self.enemy.scale.y and self.position.y + self.scale.y > self.enemy.position.y:
-            if self.isAlive == True:
-                self.isAlive = False
+            if self.is_alive == True:
+                self.is_alive = False
                 print("entrou")
 
     def shot(self):

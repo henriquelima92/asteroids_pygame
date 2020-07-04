@@ -5,14 +5,17 @@ from pygame.math import Vector2
 import math
 
 class Asteroid(pygame.sprite.Sprite):
-    def __init__(self, position, scale):
+    def __init__(self, position, scale, asteroid_type):
         super(Asteroid, self).__init__()
+        self.asteroid_type = asteroid_type
         self.scale = scale
         self.surf = pygame.Surface(self.scale)
         self.surf.fill((255,0,0))
         self.rect = self.surf.get_rect()
         self.position = position
         self.speed = 0.5
+        
+        random.seed(random.randint(0,100))
 
         self.speedx = (random.randrange(1)*2-1)*((random.randrange(70)+5))/(80 + 30 * self.scale.x) * math.cos(random.randrange(0,360))
         self.speedy = (random.randrange(1)*2-1)*((random.randrange(70)+5))/(80 + 30 * self.scale.y) * math.sin(random.randrange(0,360))
@@ -37,7 +40,3 @@ class Asteroid(pygame.sprite.Sprite):
             self.position.y = 0
         elif self.position.y < 0:
             self.position.y = constant.SCREEN_HEIGHT
-
-    def _reset(self):
-        self.position.y = 0
-        self.position.x = random.randint(0, 560)
