@@ -7,8 +7,9 @@ from scripts.collider import Collider
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, asteroid_controller, highscore, audio):
+    def __init__(self, asteroid_controller, highscore, audio, quit_game):
         super(Player, self).__init__()
+        self.quit_game = quit_game
         self.is_alive = True
 
         self.scale = Vector2(40,40)
@@ -83,11 +84,13 @@ class Player(pygame.sprite.Sprite):
 
     def _verify_collision(self):
         for asteroid in self.asteroid_controller.asteroid_list:
-            if self.collider.check_collision(Vector2(self.hitbox[0],self.hitbox[1]), asteroid):
+            if self.collider.check_collision(Vector2(self.hitbox[0],self.hitbox[1]), asteroid) and self.is_alive == True:
                 self.audio.play_ship_explosion()
                 self.asteroid_controller.remove_asteroid(asteroid)
                 self.kill()
                 self.is_alive = False
+                pygame.time.delay(3000)
+                self.quit_game()
 
     def update(self):
         if self.is_alive == False:

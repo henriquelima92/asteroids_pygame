@@ -1,4 +1,4 @@
-DEBUG_MODE = True
+DEBUG_MODE = False
 
 SCRIPTS_FOLDER = "scripts/"
 FONTS_FOLDER = "fonts/"

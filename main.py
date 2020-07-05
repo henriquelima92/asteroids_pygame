@@ -15,6 +15,9 @@ from pygame.math import Vector2
 
 _is_running = True
 
+def quit_game():
+    global _is_running
+    _is_running = False
 
 def _update():
     _asteroid_controller.update_asteroids()
@@ -57,7 +60,7 @@ if __name__ == '__main__':
     _highscore = Highscore()
     _interface = Interface(_highscore)
     _asteroid_controller = Asteroid_Controller()
-    _player = Player(_asteroid_controller, _highscore, _audio)
+    _player = Player(_asteroid_controller, _highscore, _audio, quit_game)
 
     _game_loop()
     
