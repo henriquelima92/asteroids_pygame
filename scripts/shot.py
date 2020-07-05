@@ -6,14 +6,13 @@ import math
 
 class Shot(pygame.sprite.Sprite):
 
-    def __init__(self, position, angle, shots_list):
+    def __init__(self, position, angle, shots_list, asteroid_controller):
         super(Shot, self).__init__()
         self.scale = Vector2(5,5)
         self.surf = pygame.Surface(self.scale)
         self.surf.fill((0,255,0))
         self.rect = self.surf.get_rect()
         self.position = position
-        self.collider = Collider(self.position, self.scale)
         self.shots_list = shots_list
 
         if angle + 90 > 360:
@@ -26,16 +25,18 @@ class Shot(pygame.sprite.Sprite):
         self.speed = 1
 
         self.hitbox = (self.position.x, self.position.y, self.scale.x, self.scale.y)
+        self.collider = Collider(self.hitbox)
+        self.asteroid_controller = asteroid_controller
 
-    def update(self, asteroid_controller):
+    def update(self):
         self.position.x += self.speedx
         self.position.y += self.speedy
 
         self._check_borders()
 
-        for asteroid in asteroid_controller.asteroid_list:
+        for asteroid in self.asteroid_controller.asteroid_list:
             if self.collider.check_collision(self.position, asteroid) == True:
-                asteroid_controller.remove_asteroid(asteroid)
+                self.asteroid_controller.remove_asteroid(asteroid)
                 self._kill_shot()
 
 

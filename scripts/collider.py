@@ -1,13 +1,12 @@
 class Collider(object):
-    def __init__(self, position, scale):
-        self.position = position
-        self.scale = scale
+    def __init__(self, hitbox):
+        self.hitbox = hitbox
 
     def check_collision(self, position, enemy):
         self.posiition = position
 
-        if self.position.x < (enemy.position.x + enemy.scale.x) and (self.position.x + self.scale.x) > enemy.position.x: 
-            if self.position.y < (enemy.position.y + enemy.scale.y) and (self.position.y + self.scale.y) > enemy.position.y:
+        if position.x < (enemy.position.x + enemy.scale.x) and (position.x + self.hitbox[2]) > enemy.position.x: 
+            if position.y < (enemy.position.y + enemy.scale.y) and (position.y + self.hitbox[3]) > enemy.position.y:
                 return True
         return False
 

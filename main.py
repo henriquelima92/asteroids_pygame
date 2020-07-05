@@ -11,7 +11,7 @@ _is_running = True
 
 def _update():
     _asteroid_controller.update_asteroids()
-    _player.update(_asteroid_controller)
+    _player.update()
 
 def _draw(screen):
     screen.fill([0, 0, 0])
@@ -48,7 +48,7 @@ if __name__ == '__main__':
     
     _interface = Interface()
     _asteroid_controller = Asteroid_Controller()
-    _player = Player()
+    _player = Player(_asteroid_controller)
 
 
     _game_loop()
