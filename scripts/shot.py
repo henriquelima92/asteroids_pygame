@@ -6,7 +6,7 @@ import math
 
 class Shot(pygame.sprite.Sprite):
 
-    def __init__(self, position, angle, shots_list, asteroid_controller):
+    def __init__(self, position, angle, shots_list, asteroid_controller, highscore):
         super(Shot, self).__init__()
         self.scale = Vector2(5,5)
         self.surf = pygame.Surface(self.scale)
@@ -27,6 +27,7 @@ class Shot(pygame.sprite.Sprite):
         self.hitbox = (self.position.x, self.position.y, self.scale.x, self.scale.y)
         self.collider = Collider(self.hitbox)
         self.asteroid_controller = asteroid_controller
+        self.highscore = highscore
 
     def update(self):
         self.position.x += self.speedx
@@ -36,8 +37,9 @@ class Shot(pygame.sprite.Sprite):
 
         for asteroid in self.asteroid_controller.asteroid_list:
             if self.collider.check_collision(self.position, asteroid) == True:
-                self.asteroid_controller.remove_asteroid(asteroid)
                 self._kill_shot()
+                self.highscore.increase_points(asteroid.type)
+                self.asteroid_controller.remove_asteroid(asteroid)
 
 
     def _check_borders(self):

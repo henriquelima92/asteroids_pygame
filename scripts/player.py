@@ -7,7 +7,7 @@ from scripts.collider import Collider
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, asteroid_controller):
+    def __init__(self, asteroid_controller, highscore):
         super(Player, self).__init__()
         self.scale = Vector2(40,40)
         self.surf = pygame.Surface(self.scale, pygame.SRCALPHA)
@@ -27,6 +27,9 @@ class Player(pygame.sprite.Sprite):
         self.shots_list = []
         self.asteroid_controller = asteroid_controller
         self.collider = Collider(self.hitbox)
+
+        self.highscore = highscore
+
 
     def _rotate_left(self):
         self.angle += self.turn_angle
@@ -71,7 +74,7 @@ class Player(pygame.sprite.Sprite):
         return Vector2(self.position.x, self.position.y)
 
     def _shot(self):
-        shot = Shot(self._get_shot_position(), self.angle, self.shots_list, self.asteroid_controller)
+        shot = Shot(self._get_shot_position(), self.angle, self.shots_list, self.asteroid_controller, self.highscore)
         self.shots_list.append(shot)
 
     def _verify_collision(self):

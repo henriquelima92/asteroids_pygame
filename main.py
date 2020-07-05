@@ -1,10 +1,15 @@
 import pygame
+
 from scripts.player import Player
 from scripts.asteroid import Asteroid
+from scripts.highscore import Highscore
+from scripts.user_interface import Interface
+from scripts.asteroid_controller import Asteroid_Controller
+
 from scripts import constant
 from pygame.math import Vector2
-from scripts.asteroid_controller import Asteroid_Controller
-from scripts.user_interface import Interface
+
+
 
 _is_running = True
 
@@ -16,9 +21,9 @@ def _update():
 def _draw(screen):
     screen.fill([0, 0, 0])
 
-    _interface.draw(screen)
     _asteroid_controller.draw_asteroids(screen)
     _player.draw(screen)
+    _interface.draw(screen)
 
     pygame.display.update()
 
@@ -46,9 +51,10 @@ if __name__ == '__main__':
     pygame.init()
     _screen = pygame.display.set_mode([constant.SCREEN_WIDTH,constant.SCREEN_HEIGHT])
     
-    _interface = Interface()
+    _highscore = Highscore()
+    _interface = Interface(_highscore)
     _asteroid_controller = Asteroid_Controller()
-    _player = Player(_asteroid_controller)
+    _player = Player(_asteroid_controller, _highscore)
 
 
     _game_loop()
