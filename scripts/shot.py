@@ -25,6 +25,8 @@ class Shot(pygame.sprite.Sprite):
 
         self.speed = 1
 
+        self.hitbox = (self.position.x, self.position.y, self.scale.x, self.scale.y)
+
     def update(self, asteroid_controller):
         self.position.x += self.speedx
         self.position.y += self.speedy
@@ -48,3 +50,7 @@ class Shot(pygame.sprite.Sprite):
 
     def draw(self, screen):
         screen.blit(self.surf, self.position)
+        self.hitbox = (self.position.x, self.position.y, self.scale.x, self.scale.y)
+
+        if constant.DEBUG_MODE == True:
+            pygame.draw.rect(screen, (255,0,0), self.hitbox, 2)

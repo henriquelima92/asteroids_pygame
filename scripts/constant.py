@@ -1,3 +1,5 @@
+DEBUG_MODE = True
+
 SCRIPTS_FOLDER = "scripts/"
 FONTS_FOLDER = "fonts/"
 AUDIOS_FOLDER = "fonts/"

@@ -13,12 +13,14 @@ class Asteroid(pygame.sprite.Sprite):
         self.scale = self._get_scale()
 
         self.surf = pygame.Surface(self.scale)
-        self.surf.fill((255,0,0))
+        self.surf.fill((100,0,0))
         self.rect = self.surf.get_rect()
 
         self.speed = self._get_speed() 
         self.angle = self._get_angle()
         self.direction = self._get_movement_direction()
+
+        self.hitbox = (self.position.x, self.position.y, self.scale.x, self.scale.y)
 
     def _get_speed(self):    
         if self.type == 1:
@@ -68,5 +70,10 @@ class Asteroid(pygame.sprite.Sprite):
 
     def draw(self, screen):
         screen.blit(self.surf, self.position)
+
+        self.hitbox = (self.position.x, self.position.y, self.scale.x, self.scale.y)
+        if constant.DEBUG_MODE == True:
+            pygame.draw.rect(screen, (255,0,0), self.hitbox,2)
+
 
     

@@ -6,7 +6,8 @@ class Collider(object):
     def check_collision(self, position, enemy):
         self.posiition = position
 
-        if self.position.x < enemy.position.x + enemy.scale.x and self.position.x + self.scale.x > enemy.position.x and self.position.y < enemy.position.y + enemy.scale.y and self.position.y + self.scale.y > enemy.position.y:
-            return True
+        if self.position.x < (enemy.position.x + enemy.scale.x) and (self.position.x + self.scale.x) > enemy.position.x: 
+            if self.position.y < (enemy.position.y + enemy.scale.y) and (self.position.y + self.scale.y) > enemy.position.y:
+                return True
         return False
 

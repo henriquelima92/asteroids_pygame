@@ -6,6 +6,9 @@ import math
 
 from scripts.collider import Collider
 
+
+
+
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super(Player, self).__init__()
@@ -25,6 +28,8 @@ class Player(pygame.sprite.Sprite):
 
         self.is_alive = True
         self.shots = []
+
+        self.hitbox = (self.position.x, self.position.y, self.scale.x, self.scale.y)
         
     def inputs(self, event):
         if self.is_alive == True:
@@ -117,8 +122,15 @@ class Player(pygame.sprite.Sprite):
 
     def draw(self, screen):
         if self.is_alive == True:
-            img_copy = pygame.transform.rotate(self.surf, self.angle)
-            screen.blit(img_copy, (self.position.x - int(img_copy.get_width() / 2), self.position.y - int(img_copy.get_height() / 2)))
+            player_surface = pygame.transform.rotate(self.surf, self.angle)
+            player_rect = player_surface.get_rect()
+            player_rect.center = self.position
+            screen.blit(player_surface, player_rect)
+
+            self.hitbox = (self.position.x - (self.scale.x/2), self.position.y - (self.scale.y/2), self.scale.x, self.scale.y)
+            if constant.DEBUG_MODE == True:
+                pygame.draw.rect(screen, (255,0,0), self.hitbox,2)
+
             if len(self.shots) > 0:
                 for shot in self.shots:
                     shot.draw(screen)

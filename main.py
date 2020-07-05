@@ -32,7 +32,7 @@ def _inputs():
 
 def _game_loop():
 
-    while _is_running == True: 
+    while _is_running == True:
         _inputs()
         _update()
         _draw(_screen)

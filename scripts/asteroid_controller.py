@@ -9,7 +9,6 @@ class Asteroid_Controller(object):
         self.asteroid_list = []
 
     def update_asteroids(self):
-        print(len(self.asteroid_list))
         self._check_asteroid_list()
         for asteroid in self.asteroid_list:
             asteroid.update()
