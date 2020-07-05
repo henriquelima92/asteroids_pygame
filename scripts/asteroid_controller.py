@@ -34,6 +34,12 @@ class Asteroid_Controller(object):
         random.seed(random.randint(0,1000))
         return Vector2(random.randint(0, constant.SCREEN_WIDTH), 0)
 
+    def _get_asteroid_respawn_position(self, asteroid):
+        position_x = random.uniform(asteroid.position.x, asteroid.position.x + asteroid.scale.x)
+        position_y = random.uniform(asteroid.position.y, asteroid.position.y + asteroid.scale.y)
+        return Vector2(position_x, position_y)
+
+
     def _spawn_asteroid(self, amount):
         for x in range(amount):
             _position = self._get_asteroid_spawn_position()
@@ -49,12 +55,12 @@ class Asteroid_Controller(object):
             _position = asteroid.position
             _type = random.randint(1, asteroid.type-1)
 
-            new_asteroid = Asteroid(_position, _type)
+            new_asteroid = Asteroid(self._get_asteroid_respawn_position(asteroid), _type)
             self.asteroid_list.append(new_asteroid)
 
     def _check_respawn(self, asteroid):
         print(asteroid.type)
-        if asteroid.type == 3 or asteroid == 4:
+        if asteroid.type == 3 or asteroid.type == 4:
             self._respawn_asteroid(asteroid)
 
     def _check_asteroid_list(self):
