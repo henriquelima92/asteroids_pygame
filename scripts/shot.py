@@ -6,7 +6,7 @@ import math
 
 class Shot(pygame.sprite.Sprite):
 
-    def __init__(self, position, angle, shots_list, asteroid_controller, highscore):
+    def __init__(self, position, angle, shots_list, asteroid_controller, highscore, audio):
         super(Shot, self).__init__()
         self.scale = Vector2(5,5)
         self.surf = pygame.Surface(self.scale)
@@ -28,6 +28,7 @@ class Shot(pygame.sprite.Sprite):
         self.collider = Collider(self.hitbox)
         self.asteroid_controller = asteroid_controller
         self.highscore = highscore
+        self.audio = audio
 
     def update(self):
         self.position.x += self.speedx
@@ -40,6 +41,7 @@ class Shot(pygame.sprite.Sprite):
                 self._kill_shot()
                 self.highscore.increase_points(asteroid.type)
                 self.asteroid_controller.remove_asteroid(asteroid)
+                self.audio.play_asteroid_explosion()
 
 
     def _check_borders(self):

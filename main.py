@@ -5,6 +5,8 @@ from scripts.asteroid import Asteroid
 from scripts.highscore import Highscore
 from scripts.user_interface import Interface
 from scripts.asteroid_controller import Asteroid_Controller
+from scripts.audio_controller import Audio_Controller
+
 
 from scripts import constant
 from pygame.math import Vector2
@@ -51,11 +53,11 @@ if __name__ == '__main__':
     pygame.init()
     _screen = pygame.display.set_mode([constant.SCREEN_WIDTH,constant.SCREEN_HEIGHT])
     
+    _audio = Audio_Controller()
     _highscore = Highscore()
     _interface = Interface(_highscore)
     _asteroid_controller = Asteroid_Controller()
-    _player = Player(_asteroid_controller, _highscore)
-
+    _player = Player(_asteroid_controller, _highscore, _audio)
 
     _game_loop()
     

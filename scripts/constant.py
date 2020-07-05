@@ -2,7 +2,7 @@ DEBUG_MODE = True
 
 SCRIPTS_FOLDER = "scripts/"
 FONTS_FOLDER = "fonts/"
-AUDIOS_FOLDER = "fonts/"
+AUDIOS_FOLDER = "audios/"
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600

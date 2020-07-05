@@ -7,8 +7,10 @@ from scripts.collider import Collider
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, asteroid_controller, highscore):
+    def __init__(self, asteroid_controller, highscore, audio):
         super(Player, self).__init__()
+        self.is_alive = True
+
         self.scale = Vector2(40,40)
         self.surf = pygame.Surface(self.scale, pygame.SRCALPHA)
         self.surf.fill((255,255,255))
@@ -29,6 +31,7 @@ class Player(pygame.sprite.Sprite):
         self.collider = Collider(self.hitbox)
 
         self.highscore = highscore
+        self.audio = audio
 
 
     def _rotate_left(self):
@@ -74,16 +77,22 @@ class Player(pygame.sprite.Sprite):
         return Vector2(self.position.x, self.position.y)
 
     def _shot(self):
-        shot = Shot(self._get_shot_position(), self.angle, self.shots_list, self.asteroid_controller, self.highscore)
+        self.audio.play_ship_shot()
+        shot = Shot(self._get_shot_position(), self.angle, self.shots_list, self.asteroid_controller, self.highscore, self.audio)
         self.shots_list.append(shot)
 
     def _verify_collision(self):
         for asteroid in self.asteroid_controller.asteroid_list:
             if self.collider.check_collision(Vector2(self.hitbox[0],self.hitbox[1]), asteroid):
-                self.kill()
+                self.audio.play_ship_explosion()
                 self.asteroid_controller.remove_asteroid(asteroid)
+                self.kill()
+                self.is_alive = False
 
     def update(self):
+        if self.is_alive == False:
+            return
+
         if pygame.key.get_pressed()[pygame.K_LEFT] != 0:
             self._rotate_left()
         elif pygame.key.get_pressed()[pygame.K_RIGHT] != 0:
@@ -100,11 +109,17 @@ class Player(pygame.sprite.Sprite):
         self._check_edges()
 
     def inputs(self, event):
+        if self.is_alive == False:
+            return
+
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 self._shot()
 
     def draw(self, screen):
+        if self.is_alive == False:
+            return
+
         player_surface = pygame.transform.rotate(self.surf, self.angle)
         player_rect = player_surface.get_rect()
         player_rect.center = self.position
